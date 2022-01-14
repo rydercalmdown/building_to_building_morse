@@ -1,0 +1,7 @@
+requests
+ipython
+morse-talk
+flask
+rtsparty
+pillow
+pynput

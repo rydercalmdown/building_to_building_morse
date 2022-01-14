@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>Morse Code Transmitter</title>
+  <link href=" {{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+  <meta name="theme-color" content="#7952b3">
+  <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-5">
+      <div>
+        <h3 class="float-md-start mb-0">Morse Transmitter</h3>
+      </div>
+    </header>
+
+    <main class="px-2">
+      <h4>Enter Your Message</h4>
+      <form action="/transmit/" method="post">
+        <div class="form-group">
+        <label for="msg">Message</label>
+        <input class type="text" id="msg" name="msg">
+        </div>
+        <input class="mt-4 btn btn-block btn-secondary fw-bold border-white bg-white" type="submit" value="Submit">
+      </form>
+      </p>
+    </main>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+
+</body>
+
+</html>
