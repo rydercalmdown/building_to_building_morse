@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 from pynput import mouse, keyboard
 
 
@@ -67,14 +68,14 @@ class SignalCalibrator():
             self.drawing_in_progress = False
             self.drawing_complete = True
             self.x2, self.y2 = x, y
-        # else:
-        #     if x and y:
-        #         cv2.rectangle(
-        #             self.image,
-        #             (self.x1, self.y1),
-        #             (x,y),
-        #             (255, 255, 0),
-        #             2)
+        else:
+            if x and y:
+                cv2.rectangle(
+                    self.image,
+                    (self.x1, self.y1),
+                    (x,y),
+                    (255, 255, 0),
+                    2)
 
     def _create_named_window(self):
         """Defines the named window for the process"""
@@ -83,6 +84,7 @@ class SignalCalibrator():
         cv2.setWindowProperty(self.window_name,
             cv2.WND_PROP_FULLSCREEN,
             cv2.WINDOW_FULLSCREEN)
+        cv2.startWindowThread()
     
     def _get_coordinates_dict(self):
         """Returns a dictionary of coordinates"""
@@ -100,5 +102,8 @@ class SignalCalibrator():
         while not self.drawing_complete:
             cv2.imshow(self.window_name, self.image)
             cv2.waitKey(10)
-        cv2.destroyAllWindows()
+        cv2.waitKey(1)
+        for i in range(1, 10):
+            cv2.destroyAllWindows()
+            cv2.waitKey(1)
         return self._get_coordinates_dict()

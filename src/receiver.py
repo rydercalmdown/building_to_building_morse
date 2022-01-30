@@ -6,6 +6,7 @@ from rtsparty import Stream
 from PIL import Image, ImageStat
 import morse_talk as mtalk
 from signal_calibrator import SignalCalibrator
+import cv2
 
 
 class MorseReceiver():
@@ -21,8 +22,9 @@ class MorseReceiver():
 
     def __init__(self):
         """Instantiate the module"""
+        logging.getLogger().setLevel(logging.INFO)
         self._setup_stream()
-        self.crop_coordinates = {'x1': 947, 'y1': 547, 'x2': 954, 'y2': 554}
+        self.crop_coordinates = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
         self.binary = 0
         self.time_unit_dur = 0.5
         self.running_character = ''
@@ -157,6 +159,7 @@ class MorseReceiver():
         """Run the signal processing pipeline"""
         logging.info('Starting pipeline')
         while True:
+            logging.info('frame')
             fps_start = start_time = time.time()
             frame = self.stream.get_frame()
             if self.stream.is_frame_empty(frame):
@@ -179,13 +182,16 @@ class MorseReceiver():
         calibrator = SignalCalibrator()
         self.crop_coordinates = calibrator.get_coordinates(frame)
         logging.info(self.crop_coordinates)
+        del calibrator
+        for i in range(1, 10):
+            cv2.destroyAllWindows()
+            cv2.waitKey(1)
 
     def start(self):
         """Starts the application"""
-        logging.getLogger().setLevel(logging.INFO)
         logging.info('Starting application')
         try:
-            # self.calibrate()
+            self.calibrate()
             self._start_pipeline()
             self._decode_pulses()
         except KeyboardInterrupt:

@@ -17,6 +17,10 @@ install:
 install-python:
 	@python3 -m pip install --user -r src/requirements.txt
 
+.PHONY: install-receiver
+install-receiver:
+	@cd scripts @@ bash install_receiver.sh
+
 .PHONY: copy
 copy:
 	@echo "For development only"
